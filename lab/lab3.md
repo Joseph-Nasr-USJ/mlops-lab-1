@@ -38,8 +38,12 @@
 > Question 5: What's the size difference between a naive single-stage image and your multi-stage one? Use `docker history <image>` to see which layers are the biggest.
 
 - The multi-stage image is 9.58 GB on disk. Docker history shows the biggest layer is COPY /app/.venv, at 6.19 GB.
-- That said, a naive single-stage image would yet be bigger because it keeps the full Debian base with compilers and build tools which are not needed at runtime.
-- IMAGE          CREATED       CREATED BY                                      SIZE      COMMENT
+- That said, a naive single-stage image would be even bigger because it keeps the full Debian base with compilers and build tools which are not needed at runtime.
+
+`docker history food11-api:latest`:
+
+```text
+IMAGE          CREATED       CREATED BY                                      SIZE      COMMENT
 0dbec4a1a79c   2 hours ago   ENTRYPOINT ["uvicorn" "src.food11.serve:app"…   0B        buildkit.dockerfile.v0
 <missing>      2 hours ago   EXPOSE [8000/tcp]                               0B        buildkit.dockerfile.v0
 <missing>      2 hours ago   ENV PATH=/app/.venv/bin:/usr/local/bin:/usr/…   0B        buildkit.dockerfile.v0
@@ -56,6 +60,7 @@
 <missing>      2 days ago    ENV LANG=C.UTF-8                                0B        buildkit.dockerfile.v0
 <missing>      2 days ago    ENV PATH=/usr/local/bin:/usr/local/sbin:/usr…   0B        buildkit.dockerfile.v0
 <missing>      3 days ago    # debian.sh --arch 'amd64' out/ 'trixie' '@1…   87.7MB    debuerreotype 0.17
+```
 
 
 ## Question 6
